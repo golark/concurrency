@@ -44,7 +44,7 @@ func handleConn(conn net.Conn) {
 		n, err := conn.Read(msgIn)
 		if err != nil {
 			log.WithFields(log.Fields{"err":err}).Error("error while reading from connection")
-			continue
+			return
 		}
 		log.WithFields(log.Fields{"msgIn":msgIn, "numBytes":n}).Info("msg from client")
 
@@ -52,7 +52,7 @@ func handleConn(conn net.Conn) {
 		n, err = conn.Write(msgIn) // writer interface writes all msgIn buffer even though it is not full!
 		if err != nil {
 			log.WithFields(log.Fields{"err":err}).Error("error while writing to connection")
-			continue
+			return
 		}
 		log.WithFields(log.Fields{"num bytes:":n}).Info("written")
 	}

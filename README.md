@@ -1,6 +1,6 @@
 #### simple concurrency with go routines:
  - 2/2 simple go routine to handle connections concurrently
- - /2 limit the number of connections
+ - 1/2 limit the number of connections
  
  ### go routine lifetime
  - /2 go routine signalling finish
@@ -17,9 +17,8 @@
  - /5 limiting number of go routines executing concurrently
  
  ### architectures ( channels & go routines )
- - /1 pipeline
+ - 1/1 pipeline
  - /1 select statement and infinite loop
- 
  
  
  /37 total + /13 extra points that can be added  concurrency
@@ -29,7 +28,9 @@
     .
     ├── handleconn                  # handle incoming connections
     |   ├── example1                # read/write n bytes at a time, should better handle the read/write buffering
-    |   ├── example2                # improves example 1 by using buffer to read/write
+    |   ├── example2                # improves example 1 by using bufio to read/write, fixed the issue with writing more than necessary bytes, logs when closing connection
+    |   ├── example3                # uses io.Copy
+    |   ├── example4                # limit number of connections
+    ├── architecture                #
+    |   ├── simplepipeline          # a barebone pipeline demonstrator
     ├── README.md                   # this file
- 
- 
