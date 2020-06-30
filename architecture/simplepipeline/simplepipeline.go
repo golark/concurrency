@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"crypto/sha256"
 	"fmt"
 	log "github.com/sirupsen/logrus"
 	"os"
@@ -31,7 +32,8 @@ func computeHash(cRequest <-chan string, cResult chan<- string) {
 
 	for req := range cRequest {
 		// compute hash and send over
-		cResult <- req
+		hash := sha256.Sum256([]byte(req))
+		cResult <- string(hash[:])
 	}
 
 	log.Info("computeHash exiting")
@@ -58,3 +60,4 @@ func main() {
 
 	time.Sleep(time.Minute * 5)
 }
+
