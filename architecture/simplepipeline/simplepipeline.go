@@ -10,6 +10,7 @@ import (
 )
 
 func getUserRequest(c chan<- string) {
+	defer log.Info("getUserRequest exited")
 
 	for {
 		s := bufio.NewScanner(os.Stdin)
@@ -29,6 +30,7 @@ func getUserRequest(c chan<- string) {
 
 // computeHash
 func computeHash(cRequest <-chan string, cResult chan<- string) {
+	defer log.Info("computeHash exited")
 
 	for req := range cRequest {
 		// compute hash and send over
@@ -36,17 +38,15 @@ func computeHash(cRequest <-chan string, cResult chan<- string) {
 		cResult <- string(hash[:])
 	}
 
-	log.Info("computeHash exiting")
 }
 
 // simply notify the user
 func notifyUser(cMsg <-chan string) {
+	defer log.Info("notifyUser exited")
 
 	for msg := range cMsg {
 		fmt.Println(msg)
 	}
-
-	log.Info("notifyUser exiting")
 }
 
 func main() {
