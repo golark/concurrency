@@ -7,7 +7,7 @@
  - /2 waiting for go routines
  - 1/2 cancelling go routines
  - /2 returning error from go routines
- - 1/3 timeout from go routine ( extra )
+ - 2/3 timeout from go routine ( extra )
  
  ### benchmarking
  - /3 benchmarking with go routines
@@ -36,5 +36,6 @@
     |   ├── simplepipeline          # a barebone pipeline demonstrator
     |   ├── simplepipeline2         # cancel go routines
     ├── lifetime                    # 
-    |   ├── external timeout        # external channel signal timeout
+    |   ├── externaltimeout         # external channel signals timeout
+    |   ├── externaltimeout         # external channel signals timeout
     ├── README.md                   # this file
