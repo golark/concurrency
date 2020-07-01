@@ -5,8 +5,9 @@
  ### go routine lifetime
  - /2 go routine signalling finish
  - /2 waiting for go routines
- - /2 cancelling go routines
+ - 1/2 cancelling go routines
  - /2 returning error from go routines
+ - 1/3 timeout from go routine ( extra )
  
  ### benchmarking
  - /3 benchmarking with go routines
@@ -18,7 +19,7 @@
  
  ### architectures ( channels & go routines )
  - 1/1 pipeline
- - /1 select statement and infinite loop
+ - 1/1 select statement and infinite loop
  
  
  /37 total + /13 extra points that can be added  concurrency
@@ -33,4 +34,7 @@
     |   ├── example4                # limit number of connections
     ├── architecture                #
     |   ├── simplepipeline          # a barebone pipeline demonstrator
+    |   ├── simplepipeline2         # cancel go routines
+    ├── lifetime                    # 
+    |   ├── external timeout        # external channel signal timeout
     ├── README.md                   # this file
