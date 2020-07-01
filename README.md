@@ -7,7 +7,7 @@
  - /2 waiting for go routines
  - 1/2 cancelling go routines
  - /2 returning error from go routines
- - 2/3 timeout from go routine ( extra )
+ - 3/3 timeout from go routine ( extra )
  
  ### benchmarking
  - /3 benchmarking with go routines
