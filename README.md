@@ -3,9 +3,9 @@
  - 1/2 limit the number of connections
  
  ### go routine lifetime
- - /2 go routine signalling finish
+ - 1/2 go routine signalling finish
  - /2 waiting for go routines
- - 1/2 cancelling go routines
+ - 2/2 cancelling go routines
  - /2 returning error from go routines
  - 3/3 timeout from go routine ( extra )
  
@@ -24,6 +24,9 @@
  
  /37 total + /13 extra points that can be added  concurrency
  
+ @todo: time.After in case statement, stack growth ( downsides of using time.After in case statement )
+ 
+ 
 ##### Directory structure and files
 
     .
@@ -36,6 +39,8 @@
     |   ├── simplepipeline          # a barebone pipeline demonstrator
     |   ├── simplepipeline2         # cancel go routines
     ├── lifetime                    # 
+    |   ├── closuretimeout          # simple query to dB with timeout packed in closure
+    |   ├── internaltimeout         # forselect loop that times out
     |   ├── externaltimeout         # external channel signals timeout
-    |   ├── externaltimeout         # external channel signals timeout
+    |   ├── exitgoroutines          # exit with exit channel closure broadcast
     ├── README.md                   # this file
