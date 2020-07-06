@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	FIBRANGE = 10
+	FIBRANGE = 50
 )
 
 func fib(n int) int {
@@ -36,6 +36,7 @@ func randomWorkGenerator(numGens int, cWork chan<- int, wg *sync.WaitGroup) {
 
 	t := time.NewTimer(time.Millisecond * time.Duration(rTime.Intn(100)))
 
+
 	for numGens > 0 {
 		<-t.C
 		cWork <- rNum.Intn(FIBRANGE)
@@ -45,20 +46,23 @@ func randomWorkGenerator(numGens int, cWork chan<- int, wg *sync.WaitGroup) {
 	}
 }
 
-func main() {
+func uniformWorkGenerator(numGens int, cWork chan<- int, wg *sync.WaitGroup) {
+	defer func() {
+		close(cWork)
+		wg.Done()
+	} ()
 
-	numRequests := 10
-	cWork := make(chan int, numRequests)
-	cRes := make(chan [2]int, numRequests)
+	fibStart := 35
 
-	wg := sync.WaitGroup{}
-	wg.Add(1)
-	go randomWorkGenerator(numRequests, cWork, &wg)
+	for numGens > 0 {
+		cWork <- fibStart
+		fibStart++
+		numGens--
+	}
+}
 
+func getResults(numRequests int, cRes <-chan [2]int, wg *sync.WaitGroup) {
 
-	// collect the results
-	wg.Add(1)
-	go func(numRequests int, cRes <-chan [2]int, wg *sync.WaitGroup) {
 		defer wg.Done()
 
 		res := make([][2]int, numRequests)
@@ -72,16 +76,41 @@ func main() {
 		for _,v := range res {
 			fmt.Printf("fib(%v) = %v\n", v[0],v[1])
 		}
+}
 
-	} (numRequests, cRes, &wg)
+func main() {
 
-	// single threaded fibonacci generation
+	numRequests := 10
+	cWork := make(chan int, numRequests)
+	cRes := make(chan [2]int, numRequests)
+
+	wg := sync.WaitGroup{}
+
+	// step 1- work generation
+	wg.Add(1)
+	// go randomWorkGenerator(numRequests, cWork, &wg)
+	go uniformWorkGenerator(numRequests, cWork, &wg)
+
+	// step 2 - collect the results
+	wg.Add(1)
+	go getResults(numRequests, cRes, &wg)
+
+
+	// step 3 - workers
+	wgWorker := sync.WaitGroup{}
 	start := time.Now()
+
 	for i := range cWork{
-		cRes <- [2]int{i,fib(i)}
+		wgWorker.Add(1)
+		go func(i int, wg *sync.WaitGroup) {
+			defer wg.Done()
+			cRes <- [2]int{i,fib(i)}
+		} (i, &wgWorker)
 	}
+	wgWorker.Wait()
     elapsed := time.Since(start)
-    fmt.Printf("time elapes: %s\n", elapsed)
+    fmt.Printf("time elaped: %s\n", elapsed)
+
 
 	wg.Wait()
 }
