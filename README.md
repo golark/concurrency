@@ -20,12 +20,12 @@
  ### architectures ( channels & go routines )
  - 1/1 pipeline
  - 1/1 select statement and infinite loop
- 
- 
+ - 2/2 limiting number of workers ( extra ) 
+  
  /37 total + /13 extra points that can be added  concurrency
  
  @todo: time.After in case statement, stack growth ( downsides of using time.After in case statement )
- 
+ @todo: release semaphores as  a FILO manner
  
 ##### Directory structure and files
 
@@ -38,6 +38,7 @@
     ├── architecture                #
     |   ├── simplepipeline          # a barebone pipeline demonstrator
     |   ├── simplepipeline2         # cancel go routines
+    |   ├── limitedworkers          # limited workers
     ├── lifetime                    # 
     |   ├── closuretimeout          # simple query to dB with timeout packed in closure
     |   ├── internaltimeout         # forselect loop that times out
