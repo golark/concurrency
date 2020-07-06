@@ -52,7 +52,7 @@ func uniformWorkGenerator(numGens int, cWork chan<- int, wg *sync.WaitGroup) {
 		wg.Done()
 	} ()
 
-	fibStart := 35
+	fibStart := 30
 
 	for numGens > 0 {
 		cWork <- fibStart
@@ -99,13 +99,23 @@ func main() {
 	// step 3 - workers
 	wgWorker := sync.WaitGroup{}
 	start := time.Now()
+	cWorkers := make(chan struct{}, 10)
+	for i:=0;i<cap(cWorkers);i++ {
+		cWorkers <- struct{}{}
+	}
 
 	for i := range cWork{
 		wgWorker.Add(1)
-		go func(i int, wg *sync.WaitGroup) {
-			defer wg.Done()
+
+		// func(i int, cWorker chan struct{}, wg *sync.WaitGroup) {
+		go func(i int, cWorker chan struct{}, wg *sync.WaitGroup) {
+			defer func() {
+				cWorkers <- struct{}{}
+				wg.Done()
+			} ()
+			<- cWorkers
 			cRes <- [2]int{i,fib(i)}
-		} (i, &wgWorker)
+		} (i, cWorkers, &wgWorker)
 	}
 	wgWorker.Wait()
     elapsed := time.Since(start)
