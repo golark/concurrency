@@ -121,6 +121,5 @@ func main() {
     elapsed := time.Since(start)
     fmt.Printf("time elaped: %s\n", elapsed)
 
-
 	wg.Wait()
 }
