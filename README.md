@@ -15,6 +15,7 @@ analysing performance bottlenecks.
  - 2/2 cancelling go routines
  - 1/2 returning error from go routines
  - 3/3 timeout from go routine ( extra )
+ - 1/3 context timeout (extra)
  
  ### benchmarking
  - /3 benchmarking with go routines
@@ -51,5 +52,6 @@ analysing performance bottlenecks.
     |   ├── internaltimeout         # forselect loop that times out
     |   ├── externaltimeout         # external channel signals timeout
     |   ├── exitgoroutines          # exit with exit channel closure broadcast
-    |   ├── returnerror          # 
+    |   ├── returnerror             # 
+    |   ├── contexttimeout          # timeout if context expires
     ├── README.md                   # this file
