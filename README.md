@@ -1,3 +1,10 @@
+Includes golang concurrency design patterns and best practices:
+- Golang concurrency architecture such as pipeline, fan in/out, race-to-finish.
+- Go routine lifetime control with self cancelling go routines or external signals to complete go routines.
+- Returning error from Go routines though context or error channels.
+- Benchmarking to demonstrate the effective go routine spin, limiting number of workers to achieve execution speed,
+analysing performance bottlenecks.
+
 #### simple concurrency with go routines:
  - 2/2 simple go routine to handle connections concurrently
  - 1/2 limit the number of connections
@@ -6,7 +13,7 @@
  - 1/2 go routine signalling finish
  - /2 waiting for go routines
  - 2/2 cancelling go routines
- - /2 returning error from go routines
+ - 1/2 returning error from go routines
  - 3/3 timeout from go routine ( extra )
  
  ### benchmarking
@@ -44,4 +51,5 @@
     |   ├── internaltimeout         # forselect loop that times out
     |   ├── externaltimeout         # external channel signals timeout
     |   ├── exitgoroutines          # exit with exit channel closure broadcast
+    |   ├── returnerror          # 
     ├── README.md                   # this file
