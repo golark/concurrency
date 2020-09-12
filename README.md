@@ -47,6 +47,7 @@ analysing performance bottlenecks.
     |   ├── simplepipeline          # a barebone pipeline demonstrator
     |   ├── simplepipeline2         # cancel go routines
     |   ├── limitedworkers          # limited workers
+    |   ├── workersrace             # multiple workers working on same task, first to finish wins
     ├── lifetime                    # 
     |   ├── closuretimeout          # simple query to dB with timeout packed in closure
     |   ├── internaltimeout         # forselect loop that times out
@@ -54,4 +55,5 @@ analysing performance bottlenecks.
     |   ├── exitgoroutines          # exit with exit channel closure broadcast
     |   ├── returnerror             # 
     |   ├── contexttimeout          # timeout if context expires
+    |   ├── contextcancel           # go routine cancelled by another go routine
     ├── README.md                   # this file
